@@ -30,6 +30,13 @@ export async function middleware(request: NextRequest) {
           );
         },
       },
+      cookieOptions: {
+        name: 'sb-admin-auth-token',
+        domain: 'localhost',
+        path: '/',
+        sameSite: 'lax',
+        secure: false
+      }
     }
   );
 

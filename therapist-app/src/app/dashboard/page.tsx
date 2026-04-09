@@ -22,6 +22,12 @@ export default async function DashboardPage() {
              <p className="text-primary-foreground/70 text-lg leading-relaxed mb-8">
                Your private practice is flourishing. You have <span className="text-primary-foreground font-bold underline decoration-primary-container decoration-4 underline-offset-4">4 sessions</span> scheduled for today, starting in 45 minutes.
              </p>
+             <div className="mb-8 flex">
+               <div className="px-4 py-2 rounded-xl bg-white/10 border border-white/20 text-white/90 text-xs font-bold uppercase tracking-widest flex items-center gap-2">
+                 <Shield className="w-4 h-4 text-primary-container animate-pulse" />
+                 Registration Status: <span className="text-primary-container">Pending Review</span>
+               </div>
+             </div>
              <div className="flex gap-4">
                 <button className="bg-primary-container text-primary-foreground px-8 py-4 rounded-2xl font-bold uppercase tracking-widest text-xs shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all">
                   Launch Virtual Room

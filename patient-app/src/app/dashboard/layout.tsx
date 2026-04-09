@@ -10,10 +10,23 @@ export default async function DashboardLayout({
   children: React.ReactNode;
 }) {
   const supabase = await createClient();
-  const { data, error } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
-  if (!data?.user || error) {
+  if (!user) {
     redirect("/login");
+  }
+
+  // Role Check: Ensure user is a PATIENT
+  const { data: dbUser } = await supabase
+    .from("User")
+    .select("role")
+    .eq("id", user.id)
+    .single();
+
+  if (dbUser?.role !== "PATIENT") {
+    redirect("/login?error=Unauthorized: Patient access required");
   }
 
   const navItems = [
@@ -71,11 +84,11 @@ export default async function DashboardLayout({
           </div>
           <div className="flex items-center gap-4">
             <div className="text-right hidden sm:block">
-              <p className="text-sm font-semibold text-foreground leading-none">{data.user.user_metadata?.first_name || "User"}</p>
+              <p className="text-sm font-semibold text-foreground leading-none">{user.user_metadata?.first_name || "User"}</p>
               <p className="text-[10px] text-muted-foreground mt-1 uppercase tracking-tighter">Premium Patient</p>
             </div>
             <div className="w-10 h-10 rounded-xl bg-primary-container/20 border border-primary/20 flex items-center justify-center text-primary font-bold shadow-inner">
-              {data.user.user_metadata?.first_name?.[0] || "U"}
+              {user.user_metadata?.first_name?.[0] || "U"}
             </div>
           </div>
         </header>

@@ -1,43 +1,37 @@
-import { ArrowRight, Search, Filter, MapPin, Star, Calendar, Sparkles } from "lucide-react";
+"use client";
+
+import { useEffect, useState } from "react";
+import { ArrowRight, Search, Filter, MapPin, Star, Calendar, Sparkles, Loader2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { api } from "@/lib/api";
 
 export default function DiscoverPage() {
-  const therapists = [
-    {
-      id: 1,
-      name: "Dr. Elena Vance",
-      specialty: "Cognitive Behavioral Therapy",
-      rating: 4.9,
-      reviews: 124,
-      image: "https://images.unsplash.com/photo-1594824476967-48c8b964273f?auto=format&fit=crop&q=80&w=300&h=300",
-      price: "$150",
-      location: "Virtual • London, UK",
-      tags: ["Anxiety", "Depression", "LGBTQ+"]
-    },
-    {
-      id: 2,
-      name: "Marcus Aurelius",
-      specialty: "Stoic Psychotherapy",
-      rating: 5.0,
-      reviews: 89,
-      image: "https://images.unsplash.com/photo-1566492031773-4f4e44671857?auto=format&fit=crop&q=80&w=300&h=300",
-      price: "$200",
-      location: "Virtual • Rome, IT",
-      tags: ["Resilience", "Grief", "Mindfulness"]
-    },
-    {
-      id: 3,
-      name: "Dr. Sarah Jenkins",
-      specialty: "Clinical Psychotherapist",
-      rating: 4.8,
-      reviews: 215,
-      image: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&q=80&w=300&h=300",
-      price: "$175",
-      location: "Virtual • New York, US",
-      tags: ["Family", "Trauma", "CBT"]
+  const [therapists, setTherapists] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function loadTherapists() {
+      try {
+        const data = await api.therapists.getVerified();
+        setTherapists(data);
+      } catch (err) {
+        console.error("Discovery failed:", err);
+      } finally {
+        setLoading(false);
+      }
     }
-  ];
+    loadTherapists();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
+        <Loader2 className="w-12 h-12 text-primary animate-spin" />
+        <p className="text-muted-foreground font-medium uppercase tracking-widest text-xs">Curating your sanctuary...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-12 pb-24">
@@ -76,13 +70,13 @@ export default function DiscoverPage() {
         {therapists.map((t) => (
           <div key={t.id} className="group bg-surface-container-lowest border border-outline-variant/30 rounded-[2.5rem] overflow-hidden hover:shadow-2xl hover:border-primary/20 transition-all duration-700 flex flex-col relative">
             <div className="absolute top-4 right-4 z-10 px-3 py-1 rounded-full bg-white/80 backdrop-blur-md border border-outline-variant/20 text-[10px] font-bold uppercase tracking-tighter text-primary flex items-center gap-1 shadow-sm">
-              <Star className="w-3 h-3 fill-primary" /> {t.rating}
+              <Star className="w-3 h-3 fill-primary" /> 4.9
             </div>
             
             <div className="aspect-[4/3] overflow-hidden relative">
                <Image 
-                src={t.image} 
-                alt={t.name}
+                src={"https://images.unsplash.com/photo-1594824476967-48c8b964273f?auto=format&fit=crop&q=80&w=300&h=300"} 
+                alt={`${t.firstName} ${t.lastName}`}
                 fill
                 className="object-cover group-hover:scale-110 transition-transform duration-1000"
                />
@@ -90,11 +84,11 @@ export default function DiscoverPage() {
             </div>
 
             <div className="p-8 flex flex-col flex-1">
-               <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary/60 mb-2">{t.specialty}</p>
-               <h3 className="text-2xl font-heading font-medium text-foreground mb-4">{t.name}</h3>
+               <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary/60 mb-2">{t.specialities?.[0] || 'Psychotherapist'}</p>
+               <h3 className="text-2xl font-heading font-medium text-foreground mb-4">{t.firstName} {t.lastName}</h3>
                
                <div className="flex flex-wrap gap-2 mb-6">
-                 {t.tags.map(tag => (
+                 {t.specialities?.slice(0, 3).map((tag: string) => (
                    <span key={tag} className="px-3 py-1 bg-surface-container-low text-muted-foreground text-[10px] font-bold uppercase tracking-widest rounded-lg border border-outline-variant/10">
                      {tag}
                    </span>
@@ -104,7 +98,7 @@ export default function DiscoverPage() {
                <div className="mt-auto pt-6 border-t border-outline-variant/10 flex items-center justify-between">
                   <div className="flex flex-col">
                     <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/40">Starts at</span>
-                    <span className="text-xl font-heading text-primary">{t.price}</span>
+                    <span className="text-xl font-heading text-primary">${t.hourlyRate}</span>
                   </div>
                   <Link href={`/dashboard/therapist/${t.id}`} className="w-12 h-12 rounded-2xl bg-primary/5 flex items-center justify-center text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300">
                     <ArrowRight className="w-5 h-5" />
@@ -113,6 +107,11 @@ export default function DiscoverPage() {
             </div>
           </div>
         ))}
+        {therapists.length === 0 && (
+          <div className="col-span-1 md:col-span-3 py-20 text-center">
+            <p className="text-muted-foreground italic">No practitioners have joined this sanctuary yet. Check back soon.</p>
+          </div>
+        )}
       </div>
 
       {/* Featured Recommendation - Asymmetric Intentional Grid */}

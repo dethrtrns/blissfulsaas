@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ShieldX, Loader2 } from "lucide-react";
+import { api } from "@/lib/api";
 
 export default function RejectButton({ id }: { id: string }) {
   const [loading, setLoading] = useState(false);
@@ -13,15 +14,12 @@ export default function RejectButton({ id }: { id: string }) {
     
     setLoading(true);
     try {
-      const res = await fetch(`/api/therapists/${id}/reject`, { method: "DELETE" });
-      if (res.ok) {
-        router.push("/dashboard/therapists");
-        router.refresh();
-      } else {
-        alert("Ejection sequence failed. Access restricted.");
-      }
-    } catch (err) {
+      await api.therapists.reject(id);
+      router.push("/dashboard/therapists");
+      router.refresh();
+    } catch (err: any) {
       console.error(err);
+      alert(err.message || "Ejection sequence failed. Access restricted.");
     } finally {
       setLoading(false);
     }

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { CheckCircle2, Loader2 } from "lucide-react";
+import { api } from "@/lib/api";
 
 export default function ApproveButton({ id }: { id: string }) {
   const [loading, setLoading] = useState(false);
@@ -13,14 +14,11 @@ export default function ApproveButton({ id }: { id: string }) {
     
     setLoading(true);
     try {
-      const res = await fetch(`/api/therapists/${id}/approve`, { method: "PATCH" });
-      if (res.ok) {
-        router.refresh();
-      } else {
-        alert("Verification sequence failed. Terminal error.");
-      }
-    } catch (err) {
+      await api.therapists.verify(id);
+      router.refresh();
+    } catch (err: any) {
       console.error(err);
+      alert(err.message || "Verification sequence failed. Terminal error.");
     } finally {
       setLoading(false);
     }

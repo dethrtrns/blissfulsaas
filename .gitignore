@@ -32,3 +32,10 @@ yarn-error.log*
 
 # Vercel
 .vercel/
+
+# NestJS build
+dist/
+backend/dist/
+
+# Prisma
+backend/prisma/client/
