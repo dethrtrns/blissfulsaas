@@ -279,8 +279,16 @@ Each portal enforces access at the **layout level** (Server Components):
 | Portal | Guard Location | How It Works |
 |--------|---------------|--------------|
 | **Patient App** | `dashboard/layout.tsx` | Calls `supabase.auth.getUser()`. Redirects to `/login` if no session. |
-| **Therapist App** | `dashboard/layout.tsx` | Same as Patient. No role check (any authenticated user can access). |
-| **Admin Panel** | `dashboard/layout.tsx` | Calls `auth.getUser()`, then queries `public.User` via **Admin Client** (Service Role). If `role !== ADMIN`, signs the user out and redirects with an error. |
+| **Therapist App** | `dashboard/layout.tsx` | Same as Patient. |
+| **Admin Panel** | `dashboard/layout.tsx` | **Dashboard Guard**: Calls `auth.getUser()`, initiates an `Admin Client` to query `public.User`. If `role !== ADMIN`, forces a sign-out and redirects to login with an error. |
+
+### 5.5 Backend API Authorization
+
+For requests hitting the **NestJS Backend**, security is enforced via the `JwtAuthGuard` and `RolesGuard`:
+
+1.  **Token Validation**: The backend fetches public keys from Supabase (JWKS) to verify the token signature.
+2.  **Role Extraction**: The `JwtStrategy` extracts the `app_metadata.role` from the JWT.
+3.  **Endpoint Locking**: Controllers use the `@Roles('ADMIN')` decorator to restrict access.
 
 ### 5.5 Therapist Signup — Server Action Pattern
 
@@ -423,8 +431,8 @@ Each app maintains **two server-side clients** and **one browser client**:
 ### Admin Client (`lib/supabase/server.ts` → `createAdminClient()`)
 - Used in Admin Panel and Therapist signup Server Action.
 - Uses the **Service Role key** (⚠️ NEVER exposed to the browser).
-- **Bypasses ALL RLS policies** — full database access.
-- Cookie handlers are no-ops (no session needed for service role).
+- **Current RLS Strategy**: We utilize the Admin Client to bypass RLS for critical system operations (like verifying therapists or checking user roles) until granular RLS policies are fully moved into the PostgreSQL layer.
+- **Security Check**: The Admin Client is only invoked *after* a standard auth check has confirmed a valid session exists.
 
 ```typescript
 // Admin Client pattern — bypasses RLS
@@ -546,19 +554,21 @@ cd admin-panel && npm run dev        # → http://localhost:3002
 
 | Area | Issue | Workaround |
 |------|-------|-----------|
-| **RLS Policies** | No comprehensive RLS policies on `Therapist`, `Patient`, or `User` tables | NestJS Backend uses **Prisma 7** for direct server-side secure operations |
-| **Patient role check** | Patient app doesn't verify the user's role is `PATIENT` | Layout guards need to be reinforced with backend role checks |
-| **Therapist role check** | Therapist app doesn't verify the user's role is `THERAPIST` | Layout guards need to be reinforced with backend role checks |
-| **Email verification** | Supabase email confirmation is not enforced | Users can sign up without verifying their email |
+| **PostgreSQL RLS** | Granular row-level policies are not yet fully defined in SQL | High-privilege tasks are mediated by the **NestJS Backend** using the Service Role key. |
+| **Email Verification** | Supabase email confirmation is not yet strictly enforced | Users can sign up and access dashboards immediately. |
+| **Media Storage** | Therapist profile videos are currently stored as URLs | Needs transition to Supabase Storage with signed URL access. |
+| **Direct Messaging** | No real-time chat between patient and practitioner | Communication is limited to static session management. |
 
-### Planned Features
+### Planned Features (Roadmap)
 
-- [x] **NestJS API Integration**: Centralized business logic and role-based verification workflows
-- [x] **ES256 Verification**: Hardened asymmetric token validation
-- [ ] **Live Therapist Discovery**: Connect patient marketplace to verified therapists from the database
-- [ ] **Therapist Profile Editor**: Allow therapists to edit bio, specialties, and hourly rate
-- [ ] **Session Booking System**: Real-time calendar integration for appointment scheduling
-- [ ] **Payment Integration**: Stripe for session billing
+- [x] **Backend Infrastructure**: NestJS + Prisma 7 integration for business logic
+- [x] **Universal RBAC**: Dashboard guards implemented for Admin, Patient, and Therapist portals
+- [x] **ES256 Asymmetric Auth**: Modern security verification using Supabase JWKS
+- [ ] **Live Marketplace**: Connect patient discovery UI to real-time therapist availability
+- [ ] **Clinical Chat**: Real-time, encrypted messaging platform
+- [ ] **Media Vault**: Secure therapist credential and video storage
+- [ ] **Stripe Billing**: Session-based payment and therapist payouts
+- [ ] **Comprehensive SQL RLS**: Hardening the database layer for pure frontend access
 
 ---
 
