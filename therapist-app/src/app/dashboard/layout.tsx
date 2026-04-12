@@ -1,6 +1,6 @@
-import { LayoutDashboard, MessageSquare, Calendar, Home, Users } from "lucide-react";
+import { LayoutDashboard, MessageSquare, Calendar, Home, Users, Clock, Activity } from "lucide-react";
 import Link from "next/link";
-import { createClient } from "@/lib/supabase/server";
+import { createClient, createAdminClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import SignOutButton from "@/components/SignOutButton";
 
@@ -19,7 +19,9 @@ export default async function DashboardLayout({
   }
 
   // Role Check: Ensure user is a THERAPIST
-  const { data: dbUser } = await supabase
+  // Use admin client to bypass RLS for role verification (matching admin-panel pattern)
+  const adminSupabase = await createAdminClient();
+  const { data: dbUser } = await adminSupabase
     .from("User")
     .select("role")
     .eq("id", user.id)
@@ -34,6 +36,7 @@ export default async function DashboardLayout({
     { label: "Patient Roster", icon: Users, href: "/dashboard/patients" },
     { label: "Appointments", icon: Calendar, href: "/dashboard/appointments" },
     { label: "Clinical Messages", icon: MessageSquare, href: "/dashboard/messages" },
+    { label: "Availability", icon: Clock, href: "/dashboard/availability" },
   ];
 
   return (

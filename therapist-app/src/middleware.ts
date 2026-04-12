@@ -11,7 +11,7 @@ export async function updateSession(request: NextRequest) {
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
       cookieOptions: {
-        name: 'sb-admin-auth-token',
+        name: 'sb-therapist-auth-token',
         path: '/',
       },
       cookies: {

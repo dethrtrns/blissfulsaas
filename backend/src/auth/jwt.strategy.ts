@@ -3,10 +3,14 @@ import { PassportStrategy } from '@nestjs/passport';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { passportJwtSecret } from 'jwks-rsa';
+import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
-  constructor(config: ConfigService) {
+  constructor(
+    private config: ConfigService,
+    private prisma: PrismaService
+  ) {
     const supabaseUrl = config.getOrThrow<string>('NEXT_PUBLIC_SUPABASE_URL');
     
     super({
@@ -27,10 +31,16 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       throw new UnauthorizedException();
     }
     
+    // Fetch the ground truth role from the database
+    // This prevents "Forbidden resource" if the JWT claim is missing/stale
+    const user = await this.prisma.user.findUnique({
+      where: { id: payload.sub }
+    });
+    
     return {
       userId: payload.sub,
       email: payload.email,
-      role: payload.app_metadata?.role || 'PATIENT', 
+      role: user?.role || payload.app_metadata?.role || 'PATIENT', 
     };
   }
 }

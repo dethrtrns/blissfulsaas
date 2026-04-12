@@ -4,7 +4,6 @@ const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:500
 
 export async function fetchWithAuth(path: string, options: RequestInit = {}) {
   const supabase = createClient();
-  const { data: { user } } = await supabase.auth.getUser();
   const { data: { session } } = await supabase.auth.getSession();
 
   const headers: Record<string, string> = {
@@ -30,19 +29,15 @@ export async function fetchWithAuth(path: string, options: RequestInit = {}) {
 }
 
 export const api = {
-  therapists: {
-    getVerified: () => fetchWithAuth("/therapists/verified"),
-  },
   availability: {
-    forTherapist: (therapistId: string) =>
-      fetchWithAuth(`/availability/therapist/${therapistId}`),
+    getMySlots: () => fetchWithAuth("/availability"),
+    createSlot: (data: any) => fetchWithAuth("/availability", { method: "POST", body: JSON.stringify(data) }),
+    deleteSlot: (id: string) => fetchWithAuth(`/availability/${id}`, { method: "DELETE" }),
   },
   sessions: {
-    book: (data: { slotId: string; date: string; notes?: string }) =>
-      fetchWithAuth("/sessions/book", { method: "POST", body: JSON.stringify(data) }),
     upcoming: () => fetchWithAuth("/sessions/upcoming"),
-    cancel: (id: string) =>
-      fetchWithAuth(`/sessions/${id}/cancel`, { method: "PATCH" }),
+    cancel: (id: string) => fetchWithAuth(`/sessions/${id}/cancel`, { method: "PATCH" }),
+    complete: (id: string) => fetchWithAuth(`/sessions/${id}/complete`, { method: "PATCH" }),
     getToken: (id: string) => fetchWithAuth(`/sessions/${id}/token`),
   },
   messages: {

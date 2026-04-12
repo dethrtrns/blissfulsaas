@@ -12,6 +12,14 @@ enum Role {
   ADMIN
 }
 
+enum AppointmentStatus {
+  PENDING
+  CONFIRMED
+  COMPLETED
+  CANCELLED
+  NO_SHOW
+}
+
 model User {
   id        String   @id @db.Uuid // Must match Supabase auth.users.id exactly
   email     String   @unique
@@ -22,6 +30,7 @@ model User {
   patientProfile   Patient?
   therapistProfile Therapist?
   adminProfile     Admin?
+  messages         Message[]
 }
 
 model Patient {
@@ -33,6 +42,8 @@ model Patient {
   lastName    String?
   phone       String?
   dateOfBirth DateTime?
+
+  appointments Appointment[]
 }
 
 model Therapist {
@@ -47,10 +58,67 @@ model Therapist {
   videoUrl      String?
   hourlyRate    Float?
   isVerified    Boolean  @default(false)
+
+  slots         AvailabilitySlot[]
+  appointments  Appointment[]
 }
 
 model Admin {
   id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   userId    String   @unique @db.Uuid
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model AvailabilitySlot {
+  id           String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  therapistId  String    @db.Uuid
+  therapist    Therapist @relation(fields: [therapistId], references: [id], onDelete: Cascade)
+  dayOfWeek    Int       // 0=Sun, 1=Mon, ..., 6=Sat (recurring weekly)
+  startTime    String    // "09:00" (HH:mm, local time)
+  endTime      String    // "10:00" (HH:mm, local time)
+  isActive     Boolean   @default(true)
+
+  appointments Appointment[]
+
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@unique([therapistId, dayOfWeek, startTime]) // Prevent duplicate slots
+}
+
+model Appointment {
+  id            String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  patientId     String            @db.Uuid
+  patient       Patient           @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  therapistId   String            @db.Uuid
+  therapist     Therapist         @relation(fields: [therapistId], references: [id], onDelete: Cascade)
+  slotId        String            @db.Uuid
+  slot          AvailabilitySlot  @relation(fields: [slotId], references: [id])
+
+  scheduledAt   DateTime          // Exact date+time of this session
+  duration      Int               @default(60) // Duration in minutes
+
+  status        AppointmentStatus @default(PENDING)
+  videoRoomId   String            @unique @default(dbgenerated("gen_random_uuid()"))
+  patientNotes  String?
+
+  messages      Message[]
+
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+
+  @@index([patientId, scheduledAt])
+  @@index([therapistId, scheduledAt])
+}
+
+model Message {
+  id            String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  appointmentId String      @db.Uuid
+  appointment   Appointment @relation(fields: [appointmentId], references: [id], onDelete: Cascade)
+  senderId      String      @db.Uuid
+  sender        User        @relation(fields: [senderId], references: [id], onDelete: Cascade)
+  content       String
+  createdAt     DateTime    @default(now())
+
+  @@index([appointmentId, createdAt])
 }

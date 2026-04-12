@@ -562,7 +562,6 @@ cd admin-panel && npm run dev        # → http://localhost:3002
 | **Auth Callback** | No `/auth/callback` route for Supabase email flows | Magic links and password reset emails won't work |
 | **Discover Page** | Patient marketplace uses hardcoded static data | Not connected to live `Therapist` table |
 | **Therapist Profile** | No self-service profile editing for therapists | Profile data set only at signup |
-| **Media Storage** | Therapist intro videos stored as plain URLs | Needs Supabase Storage / AWS S3 with signed URLs |
 | **Booking** | No booking or availability system exists | — |
 | **Video Sessions** | No in-platform video consultation | — |
 | **Chat** | No real-time messaging between patients and therapists | — |
