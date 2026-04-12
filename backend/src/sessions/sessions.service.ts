@@ -54,15 +54,16 @@ export class SessionsService {
   }
 
   async getUpcomingSessions(userId: string, role: string) {
+    const filter = {
+      scheduledAt: { gte: new Date() },
+      status: { in: [AppointmentStatus.PENDING, AppointmentStatus.CONFIRMED] }
+    };
+
     if (role === 'PATIENT') {
       const patient = await this.prisma.patient.findUnique({ where: { userId } });
       if (!patient) return [];
       return this.prisma.appointment.findMany({
-        where: { 
-          patientId: patient.id, 
-          scheduledAt: { gte: new Date() },
-          status: { in: [AppointmentStatus.PENDING, AppointmentStatus.CONFIRMED] }
-        },
+        where: { patientId: patient.id, ...filter },
         include: { therapist: true, slot: true },
         orderBy: { scheduledAt: 'asc' }
       });
@@ -70,13 +71,37 @@ export class SessionsService {
       const therapist = await this.prisma.therapist.findUnique({ where: { userId } });
       if (!therapist) return [];
       return this.prisma.appointment.findMany({
-        where: { 
-          therapistId: therapist.id, 
-          scheduledAt: { gte: new Date() },
-          status: { in: [AppointmentStatus.PENDING, AppointmentStatus.CONFIRMED] }
-        },
+        where: { therapistId: therapist.id, ...filter },
         include: { patient: true, slot: true },
         orderBy: { scheduledAt: 'asc' }
+      });
+    }
+    return [];
+  }
+
+  async getAllSessions(userId: string, role: string) {
+    if (role === 'PATIENT') {
+      const patient = await this.prisma.patient.findUnique({ where: { userId } });
+      if (!patient) return [];
+      return this.prisma.appointment.findMany({
+        where: { patientId: patient.id },
+        include: { therapist: true, slot: true },
+        orderBy: { scheduledAt: 'desc' }
+      });
+    } else if (role === 'THERAPIST') {
+      const therapist = await this.prisma.therapist.findUnique({ where: { userId } });
+      if (!therapist) return [];
+      return this.prisma.appointment.findMany({
+        where: { therapistId: therapist.id },
+        include: { 
+          patient: { 
+            include: { 
+              user: { select: { email: true } }
+            } 
+          }, 
+          slot: true 
+        },
+        orderBy: { scheduledAt: 'desc' }
       });
     }
     return [];
@@ -110,6 +135,29 @@ export class SessionsService {
     return this.prisma.appointment.update({
       where: { id: appointmentId },
       data: { status: AppointmentStatus.COMPLETED }
+    });
+  }
+
+  async getNotes(therapistUserId: string, appointmentId: string) {
+    const appointment = await this.prisma.appointment.findUnique({
+      where: { id: appointmentId, therapist: { userId: therapistUserId } },
+      select: { therapistNotes: true }
+    });
+
+    if (!appointment) throw new ForbiddenException('Not your appointment');
+    return { notes: appointment.therapistNotes || "" };
+  }
+
+  async updateNotes(therapistUserId: string, appointmentId: string, notes: string) {
+    const appointment = await this.prisma.appointment.findUnique({
+      where: { id: appointmentId, therapist: { userId: therapistUserId } }
+    });
+
+    if (!appointment) throw new ForbiddenException('Not your appointment');
+
+    return this.prisma.appointment.update({
+      where: { id: appointmentId },
+      data: { therapistNotes: notes }
     });
   }
 

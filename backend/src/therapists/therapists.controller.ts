@@ -42,6 +42,12 @@ export class TherapistsController {
     return this.therapistsService.updateProfile(req.user.userId, body);
   }
 
+  @Get('my-patients')
+  @Roles('THERAPIST')
+  getMyPatients(@Req() req: any) {
+    return this.therapistsService.getMyPatients(req.user.userId);
+  }
+
   @Get('public/:id')
   @Roles('PATIENT', 'ADMIN')
   getById(@Param('id', ParseUUIDPipe) id: string) {

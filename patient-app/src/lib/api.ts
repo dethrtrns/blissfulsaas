@@ -41,6 +41,7 @@ export const api = {
     book: (data: { slotId: string; date: string; notes?: string }) =>
       fetchWithAuth("/sessions/book", { method: "POST", body: JSON.stringify(data) }),
     upcoming: () => fetchWithAuth("/sessions/upcoming"),
+    all: () => fetchWithAuth("/sessions/all"),
     cancel: (id: string) =>
       fetchWithAuth(`/sessions/${id}/cancel`, { method: "PATCH" }),
     getToken: (id: string) => fetchWithAuth(`/sessions/${id}/token`),
@@ -50,5 +51,9 @@ export const api = {
       fetchWithAuth('/messages', { method: 'POST', body: JSON.stringify({ appointmentId, content }) }),
     history: (appointmentId: string) =>
       fetchWithAuth(`/messages/${appointmentId}`),
+  },
+  intake: {
+    get: () => fetchWithAuth('/patients/intake'),
+    update: (data: any) => fetchWithAuth('/patients/intake', { method: 'PATCH', body: JSON.stringify(data) }),
   },
 };

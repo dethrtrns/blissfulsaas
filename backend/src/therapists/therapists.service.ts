@@ -102,4 +102,43 @@ export class TherapistsService {
       where: { id },
     });
   }
+
+  async getMyPatients(therapistUserId: string) {
+    const therapist = await this.prisma.therapist.findUnique({
+      where: { userId: therapistUserId },
+    });
+
+    if (!therapist) return [];
+
+    const appointments = await this.prisma.appointment.findMany({
+      where: { therapistId: therapist.id },
+      include: {
+        patient: {
+          include: {
+            user: { select: { email: true } }
+          }
+        }
+      },
+    });
+
+    const patientMap = new Map();
+    appointments.forEach(appt => {
+      if (!patientMap.has(appt.patientId)) {
+        patientMap.set(appt.patientId, {
+          ...appt.patient,
+          sessionCount: 0,
+          latestSession: appt.scheduledAt,
+          latestSessionNotes: appt.therapistNotes
+        });
+      }
+      const p = patientMap.get(appt.patientId);
+      p.sessionCount++;
+      if (new Date(appt.scheduledAt) > new Date(p.latestSession)) {
+        p.latestSession = appt.scheduledAt;
+        p.latestSessionNotes = appt.therapistNotes;
+      }
+    });
+
+    return Array.from(patientMap.values());
+  }
 }

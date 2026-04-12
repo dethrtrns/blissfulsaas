@@ -43,6 +43,17 @@ model Patient {
   phone       String?
   dateOfBirth DateTime?
 
+  // Clinical Intake Form
+  intakeCompleted      Boolean  @default(false)
+  reasonForSeeking     String?
+  mentalHealthHistory  String?
+  currentMedications   String?
+  previousTherapy      Boolean?
+  therapyGoals         String?
+  emergencyContactName  String?
+  emergencyContactPhone String?
+  primaryConcerns      String[]
+
   appointments Appointment[]
 }
 
@@ -101,6 +112,7 @@ model Appointment {
   status        AppointmentStatus @default(PENDING)
   videoRoomId   String            @unique @default(dbgenerated("gen_random_uuid()"))
   patientNotes  String?
+  therapistNotes String?
 
   messages      Message[]
 

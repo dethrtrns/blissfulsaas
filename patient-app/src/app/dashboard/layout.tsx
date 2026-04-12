@@ -1,4 +1,4 @@
-import { LayoutDashboard, MessageSquare, Calendar, Home, Users, Plus } from "lucide-react";
+import { LayoutDashboard, MessageSquare, Calendar, Home, Users, Plus, ClipboardList } from "lucide-react";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
@@ -34,6 +34,7 @@ export default async function DashboardLayout({
     { label: "My Sessions", icon: Calendar, href: "/dashboard/sessions" },
     { label: "Messages", icon: MessageSquare, href: "/dashboard/messages" },
     { label: "Book Session", icon: Plus, href: "/dashboard/sessions/book" },
+    { label: "My Intake Form", icon: ClipboardList, href: "/dashboard/intake" },
   ];
 
   return (

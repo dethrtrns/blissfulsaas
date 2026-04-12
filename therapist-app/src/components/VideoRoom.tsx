@@ -14,6 +14,7 @@ import AgoraRTC, {
 import { Mic, MicOff, Video, VideoOff, PhoneOff, Shield, CheckCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import ChatSidebar from "./ChatSidebar";
+import NotesSidebar from "./NotesSidebar";
 
 // Initialize the Agora client
 const client = AgoraRTC.createClient({ mode: "rtc", codec: "vp8" });
@@ -38,6 +39,7 @@ function VideoCallInner({ appId, channel, token, uid, appointmentId, patientName
   const router = useRouter();
   const [micOn, setMic] = useState(true);
   const [cameraOn, setCamera] = useState(true);
+  const [activeTab, setActiveTab] = useState<'chat' | 'notes'>('notes');
 
   const { localMicrophoneTrack } = useLocalMicrophoneTrack(micOn);
   const { localCameraTrack } = useLocalCameraTrack(cameraOn);
@@ -156,14 +158,40 @@ function VideoCallInner({ appId, channel, token, uid, appointmentId, patientName
         </div>
       </div>
 
-      {/* Persistence / Sidebar (Integrated Chat) */}
+      {/* Persistence / Sidebar (Integrated Chat & Notes) */}
       <aside className="w-full lg:w-96 flex flex-col gap-8 h-full min-h-0 max-h-[calc(100vh-180px)]">
         <div className="flex-1 bg-white rounded-[3rem] border border-slate-200 p-10 flex flex-col shadow-sm min-h-0 overflow-hidden">
-          {/* Chat Component replaces Notes Placeholder */}
-          <ChatSidebar 
-            appointmentId={appointmentId}
-            currentUserId={currentUserId}
-          />
+          
+          <div className="flex p-1 bg-slate-100 rounded-2xl mb-6">
+            <button 
+              onClick={() => setActiveTab('notes')}
+              className={`flex-1 py-3 text-[10px] font-bold uppercase tracking-widest rounded-xl transition-all ${
+                activeTab === 'notes' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-200'
+              }`}
+            >
+              Clinical Notes
+            </button>
+            <button 
+              onClick={() => setActiveTab('chat')}
+              className={`flex-1 py-3 text-[10px] font-bold uppercase tracking-widest rounded-xl transition-all ${
+                activeTab === 'chat' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-200'
+              }`}
+            >
+              Session Chat
+            </button>
+          </div>
+
+          <div className="flex-1 relative min-h-0">
+            <div className={`absolute inset-0 transition-opacity duration-300 ${activeTab === 'chat' ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'}`}>
+              <ChatSidebar 
+                appointmentId={appointmentId}
+                currentUserId={currentUserId}
+              />
+            </div>
+            <div className={`absolute inset-0 transition-opacity duration-300 ${activeTab === 'notes' ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'}`}>
+              <NotesSidebar appointmentId={appointmentId} />
+            </div>
+          </div>
 
           <div className="mt-10 pt-10 border-t border-slate-100 space-y-4">
             <div className="p-5 bg-green-50 rounded-2xl border border-green-100 flex items-center gap-4">

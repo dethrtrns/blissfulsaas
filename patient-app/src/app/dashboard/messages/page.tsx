@@ -1,27 +1,26 @@
-import { fetchWithAuthContent } from "@/lib/api-server";
+import { api } from "@/lib/api-server";
 import { createClient } from "@/lib/supabase/server";
 import MessageHistoryClient from "@/components/MessageHistoryClient";
 
 export default async function MessagesPage() {
-  const sessions = await fetchWithAuthContent("/sessions/all");
+  const sessions = await api.sessions.all();
   const conversations = Array.isArray(sessions) ? sessions : [];
   
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
   return (
-    <div className="space-y-8 animate-in fade-in duration-700 h-[calc(100vh-10rem)]">
+    <div className="space-y-10 animate-in fade-in duration-700 h-[calc(100vh-10rem)]">
       <header>
-        <h1 className="text-3xl font-bold tracking-tight text-slate-900 leading-none">
-          Message History
+        <h1 className="text-4xl font-heading font-medium text-foreground leading-none">
+          Clinical Messages
         </h1>
-        <p className="text-slate-500 mt-3 text-sm font-medium">Review your clinical communication records across all sessions.</p>
+        <p className="text-muted-foreground mt-3 text-lg">Review your consultation history and previous chats with specialists.</p>
       </header>
 
       <MessageHistoryClient 
         initialSessions={conversations} 
         currentUserId={user?.id || ""} 
-        mode="therapist"
       />
     </div>
   );

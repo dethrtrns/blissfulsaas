@@ -85,7 +85,7 @@ blissfulsaas/
 │   ├── src/
 │   │   ├── app/
 │   │   │   ├── dashboard/
-│   │   │   │   ├── appointments/page.tsx   # Schedule management
+│   │   │   │   ├── appointments/page.tsx   # Schedule + Session History
 │   │   │   │   ├── availability/page.tsx   # Slot management
 │   │   │   │   ├── sessions/[id]/call/page.tsx # Video room
 │   │   │   │   └── page.tsx                # Clinical overview
@@ -93,6 +93,7 @@ blissfulsaas/
 │   │   ├── components/
 │   │   │   ├── AppointmentActions.tsx       # State management buttons
 │   │   │   ├── ChatSidebar.tsx
+│   │   │   ├── NotesSidebar.tsx             # Private clinical notes
 │   │   │   └── VideoRoomWrapper.tsx
 │   │   └── lib/
 │   │       └── api.ts                      # Unified API service
@@ -568,11 +569,13 @@ cd admin-panel && npm run dev        # → http://localhost:3002
 - [x] **Real-Time Chat**: Full real-time support with polling fallbacks
 - [x] **Role Guards**: Layout-level CSR/SSR auth protection
 - [x] **Middleware**: Session refresh via `middleware.ts` in all portals
+- [x] **Message History**: Unified messaging archive for patients and therapists
+- [x] **Patient Roster**: Therapist dashboard view of unique patients and interaction history
+- [x] **Clinical Workstation**: Appointments view with Session Details, Patient Intake Form, and Private Clinical Notes
 
 **🔲 Pending (by priority)**
 - [ ] **Admin Panel & Analytics**: Revenue tracking, platform stats, management
 - [ ] **Payments (Razorpay)**: Session-based payment & invoicing
-- [ ] **Clinical Notes**: Private per-patient session notes (therapist-only)
 - [ ] **Email Notifications**: Transactional emails via Resend
 - [ ] **Password Recovery**: `/forgot` + `/update-password` routes
 - [ ] **Public/Institutional Pages**: Schools, Corporate, Universities program pages
@@ -642,4 +645,4 @@ The `schema.prisma` file is the **single source of truth** for the database stru
 
 ---
 
-*Documentation generated for The Blissful Station platform. Last updated: April 2026.*
+*Documentation generated for The Blissful Station platform. Last updated: April 12, 2026 (Phase 7).*

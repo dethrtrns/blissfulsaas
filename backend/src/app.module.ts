@@ -8,6 +8,7 @@ import { TherapistsModule } from './therapists/therapists.module';
 import { AvailabilityModule } from './availability/availability.module';
 import { SessionsModule } from './sessions/sessions.module';
 import { MessagesModule } from './messages/messages.module';
+import { PatientsModule } from './patients/patients.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { MessagesModule } from './messages/messages.module';
     AvailabilityModule,
     SessionsModule,
     MessagesModule,
+    PatientsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

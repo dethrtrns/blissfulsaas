@@ -19,6 +19,11 @@ export class SessionsController {
     return this.sessionsService.getUpcomingSessions(req.user.userId, req.user.role);
   }
 
+  @Get('all')
+  getAll(@Request() req: any) {
+    return this.sessionsService.getAllSessions(req.user.userId, req.user.role);
+  }
+
   @Patch(':id/cancel')
   cancel(@Request() req: any, @Param('id', ParseUUIDPipe) id: string) {
     return this.sessionsService.cancelSession(req.user.userId, id, req.user.role);
@@ -33,5 +38,17 @@ export class SessionsController {
   @Get(':id/token')
   getToken(@Request() req: any, @Param('id', ParseUUIDPipe) id: string) {
     return this.sessionsService.generateToken(req.user.userId, id);
+  }
+
+  @Get(':id/notes')
+  @Roles('THERAPIST')
+  getNotes(@Request() req: any, @Param('id', ParseUUIDPipe) id: string) {
+    return this.sessionsService.getNotes(req.user.userId, id);
+  }
+
+  @Patch(':id/notes')
+  @Roles('THERAPIST')
+  updateNotes(@Request() req: any, @Param('id', ParseUUIDPipe) id: string, @Body() body: { notes: string }) {
+    return this.sessionsService.updateNotes(req.user.userId, id, body.notes);
   }
 }

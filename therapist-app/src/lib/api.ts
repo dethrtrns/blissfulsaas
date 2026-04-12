@@ -39,6 +39,11 @@ export const api = {
     cancel: (id: string) => fetchWithAuth(`/sessions/${id}/cancel`, { method: "PATCH" }),
     complete: (id: string) => fetchWithAuth(`/sessions/${id}/complete`, { method: "PATCH" }),
     getToken: (id: string) => fetchWithAuth(`/sessions/${id}/token`),
+    getNotes: (id: string) => fetchWithAuth(`/sessions/${id}/notes`),
+    updateNotes: (id: string, notes: string) => fetchWithAuth(`/sessions/${id}/notes`, {
+      method: "PATCH",
+      body: JSON.stringify({ notes }),
+    }),
   },
   messages: {
     send: (appointmentId: string, content: string) =>
@@ -49,5 +54,6 @@ export const api = {
   therapists: {
     getProfile: () => fetchWithAuth("/therapists/profile"),
     updateProfile: (data: any) => fetchWithAuth("/therapists/profile", { method: "PATCH", body: JSON.stringify(data) }),
+    myPatients: () => fetchWithAuth("/therapists/my-patients"),
   },
 };
