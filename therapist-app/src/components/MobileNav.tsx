@@ -31,10 +31,8 @@ export default function MobileNav({ currentUserId }: { currentUserId: string }) 
     try {
       const counts = await api.messages.unreadCounts();
       const total = Object.values(counts as Record<string, number>).reduce((a, b) => a + b, 0);
-      console.log('MobileNav Therapist - Total unread:', total);
       setUnreadTotal(total);
     } catch (e) {
-      console.error('MobileNav Therapist - Unread fetch error:', e);
     }
   }, []);
 

@@ -33,7 +33,6 @@ export default function MobileNav({ currentUserId }: { currentUserId: string }) 
       const total = Object.values(counts as Record<string, number>).reduce((a, b) => a + b, 0);
       setUnreadTotal(total);
     } catch (e) {
-      console.error('MobileNav - Unread fetch error:', e);
     }
   }, []);
 

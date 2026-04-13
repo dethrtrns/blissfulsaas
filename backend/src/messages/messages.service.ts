@@ -85,7 +85,6 @@ export class MessagesService {
   async getUnreadCounts(userId: string) {
     // Find all appointments involving the user
     // Then count unread messages in those where sender is NOT the user
-    console.log(`fetching unread counts for userId: ${userId}`);
     const unreadMessages = await this.prisma.message.findMany({
       where: {
         appointment: {
@@ -102,8 +101,6 @@ export class MessagesService {
       }
     });
     
-    console.log(`Found ${unreadMessages.length} total unread messages for user: ${userId}`);
-
     // Transform to a map of appointmentId -> count
     const countMap: Record<string, number> = {};
     for (const msg of unreadMessages) {

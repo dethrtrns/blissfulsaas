@@ -21,13 +21,6 @@ export class MessagesController {
     return this.messagesService.getUnreadCounts(req.user.userId);
   }
 
-  // TEST ENDPOINT - REMOVE LATER
-  @Get('test-unread')
-  getTestUnreadCounts(@Request() req: any) {
-    const userId = req.query.userId || req.body.userId;
-    return this.messagesService.getUnreadCounts(userId);
-  }
-
   @Get(':appointmentId')
   getForAppointment(
     @Request() req: any,
