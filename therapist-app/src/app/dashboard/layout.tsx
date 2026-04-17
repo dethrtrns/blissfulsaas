@@ -43,7 +43,7 @@ export default async function DashboardLayout({
       <aside className="w-72 bg-surface-container-low border-r border-outline-variant/30 flex-col z-20 shadow-sm hidden lg:flex">
         <div className="h-24 flex items-center px-5 md:px-10 border-b border-outline-variant/20">
           <Link href="/dashboard" className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center shadow-md">
+            <div className="w-10 h-10 rounded-2xl bg-primary flex items-center justify-center shadow-lg shadow-primary/20">
               <span className="text-primary-foreground font-heading font-bold text-xl">B</span>
             </div>
             <div className="flex flex-col leading-none">
@@ -81,9 +81,9 @@ export default async function DashboardLayout({
       <main className="flex-1 flex flex-col overflow-hidden relative bg-surface-container-lowest/30 pb-20 lg:pb-0">
         <div className="absolute top-0 right-0 w-full h-[40vh] bg-linear-to-b from-primary/5 via-transparent to-transparent -z-10 pointer-events-none" />
         
-        <header className="h-20 lg:h-24 flex items-center justify-between px-6 lg:px-12 bg-surface/30 backdrop-blur-xl border-b border-outline-variant/20 z-10 shrink-0">
+        <header className="h-20 lg:h-24 flex items-center justify-between px-6 lg:px-12 bg-surface/30 backdrop-blur-3xl border-b border-outline-variant/20 z-10 shrink-0">
           <div className="flex items-center gap-3 lg:hidden">
-            <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center shadow-md">
+            <div className="w-10 h-10 rounded-2xl bg-primary flex items-center justify-center shadow-lg shadow-primary/20">
               <span className="text-primary-foreground font-heading font-bold text-xl">B</span>
             </div>
           </div>

@@ -3,8 +3,9 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { ShieldAlert, ChevronRight, Fingerprint, Loader2 } from "lucide-react";
+import { ShieldAlert, Fingerprint, Loader2 } from "lucide-react";
 import { createClient } from "@/lib/supabase";
+import { AlexButton } from "@/components/ui/AlexButton";
 
 export default function AdminLoginPage() {
   const [email, setEmail] = useState("");
@@ -62,8 +63,10 @@ export default function AdminLoginPage() {
                <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-1 transition-opacity duration-500" />
                <Fingerprint className="w-10 h-10 font-thin transition-transform duration-500 group-hover:scale-110" />
             </div>
-            <h1 className="text-4xl font-heading font-normal tracking-tight text-primary mb-4 leading-tight">Admin OS.</h1>
-            <p className="text-primary/40 text-xs font-bold uppercase tracking-[0.4em] ml-1">Admin Login</p>
+             <h1 className="text-4xl font-heading font-normal tracking-tight text-primary mb-4 leading-tight">
+               Admin <span className="simmer-text italic">OS.</span>
+             </h1>
+             <p className="text-primary/40 text-xs font-bold uppercase tracking-[0.4em] ml-1">Terminal Auth Required</p>
           </div>
 
           <div className="bg-surface-container-lowest p-5 md:p-10 md:p-12 rounded-[3.5rem] shadow-2xl border border-outline-variant/10 relative overflow-hidden group">
@@ -104,20 +107,17 @@ export default function AdminLoginPage() {
                 </div>
               )}
 
-              <button 
+              <AlexButton 
                 type="submit" 
                 disabled={loading}
-                className="w-full h-20 bg-primary text-primary-foreground font-bold uppercase tracking-[0.4em] text-xs rounded-xl shadow-2xl shadow-primary/20 hover:shadow-primary/40 hover:-translate-y-1.5 active:translate-y-0.5 flex items-center justify-center group transition-all duration-500 disabled:opacity-50 disabled:translate-y-0"
+                className="w-full h-20 shadow-2xl shadow-primary/20"
               >
                 {loading ? (
                   <Loader2 className="w-6 h-6 animate-spin" />
                 ) : (
-                  <>
-                    Login
-                    <ChevronRight className="w-4 h-4 ml-4 group-hover:translate-x-2 transition-transform duration-500" />
-                  </>
+                  "Initiate Access"
                 )}
-              </button>
+              </AlexButton>
             </form>
 
             <div className="mt-14 pt-10 border-t border-primary/5 text-center">

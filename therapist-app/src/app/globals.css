@@ -33,24 +33,27 @@
   --color-border: var(--border);
   
   --radius-xl: 1.5rem;
+  --radius-2xl: 2rem;
+  --radius-3xl: 2.5rem;
+  --radius-4xl: 3rem;
 }
 
 :root {
-  /* Blissful Botanical Green (Reference Site match) */
-  --background: #F8FAF9;
+  /* Blissful Botanical Green (Perfect Reference Match) */
+  --background: #F8FAFC;
   --foreground: #1a1a1a;
 
-  --surface: #F8FAF9;
-  --surface-container-low: #EAF4F3;
+  --surface: #F8FAFC;
+  --surface-container-low: #E8F0EE;
   --surface-container-lowest: #ffffff;
-  --surface-bright: #F8FAF9;
+  --surface-bright: #F8FAFC;
 
   --primary: #214D3E;
   --primary-foreground: #ffffff;
   --primary-container: #2d6653;
   
-  --secondary: #EAF4F3;
-  --secondary-foreground: #ffffff;
+  --secondary: #E8F0EE;
+  --secondary-foreground: #214D3E;
 
   --outline: #717974;
   --outline-variant: #c0c8c3;
@@ -65,9 +68,9 @@
   --accent-foreground: #214D3E;
   
   --destructive: #ba1a1a;
-  --border: #EAF4F3;
+  --border: #E8F0EE;
   
-  --radius: 0.5rem;
+  --radius: 0.75rem;
 }
 
 @layer base {
@@ -82,7 +85,8 @@
   }
 }
 
-/* --- Reference Site Animations & Styles --- */
+/* --- Premium Animation Suite --- */
+
 @keyframes shimmerBg {
   0% { background-position: 100% 0; }
   100% { background-position: -100% 0; }
@@ -109,6 +113,7 @@
   animation: simmer 3s ease-in-out infinite;
 }
 
+/* --- AlexButton Core Styling --- */
 .alex-button {
   background-color: var(--primary);
   border: 1px solid var(--primary);
@@ -152,4 +157,4 @@
   54% { opacity: 0; transform: translate(-120%, 120%); }
   55% { opacity: 1; }
   100% { transform: translate(0, 0); opacity: 1; }
-}
+}

@@ -60,7 +60,7 @@ export default function MobileNav({ currentUserId }: { currentUserId: string }) 
 
   return (
     <nav className="fixed bottom-6 left-1/2 -translate-x-1/2 w-[92%] max-w-md z-[100] lg:hidden">
-      <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-3xl border border-white/20 dark:border-white/10 rounded-xl p-3 shadow-[0_20px_50px_rgba(0,0,0,0.2)] flex justify-between items-center ring-1 ring-black/5">
+      <div className="bg-surface/80 backdrop-blur-3xl border border-primary/5 rounded-[2.5rem] p-3 shadow-[0_20px_50px_rgba(0,0,0,0.15)] flex justify-between items-center ring-1 ring-primary/5">
         {NAV_ITEMS.map((item) => {
           const isActive = pathname === item.href;
           const isMessages = item.href?.includes("/messages");
@@ -70,11 +70,11 @@ export default function MobileNav({ currentUserId }: { currentUserId: string }) 
               key={item.href}
               href={item.href}
               className={`flex-1 flex flex-col items-center justify-center gap-1 group relative h-12 transition-all duration-300 ${
-                isActive ? 'text-primary scale-110' : 'text-slate-400 hover:text-slate-600 dark:text-slate-500'
+                isActive ? 'text-primary scale-110' : 'text-primary/30 hover:text-primary/60'
               }`}
             >
               <div className={`relative p-2 rounded-2xl transition-all duration-300 ${
-                isActive ? 'bg-primary/15' : 'group-active:scale-90 group-hover:bg-slate-100 dark:group-hover:bg-slate-800'
+                isActive ? 'bg-primary/10' : 'group-active:scale-90 group-hover:bg-primary/5'
               }`}>
                 <item.icon className={`w-5 h-5 transition-all duration-300 ${isActive ? 'stroke-[2.5px]' : 'stroke-[1.8px]'}`} />
                 
