@@ -12,7 +12,7 @@ const features = [
     number: "02",
     title: "Safe & 100% Confidential",
     description:
-      "Your privacy is our core priority. We provide a secure digital sanctuary for your entire healing journey.",
+      "Your privacy is our core priority. We provide a secure digital station for your entire healing journey.",
   },
   {
     number: "03",

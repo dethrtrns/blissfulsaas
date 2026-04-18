@@ -3,8 +3,10 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, ChevronRight } from "lucide-react";
+import { ChevronRight, User, Mail, Lock } from "lucide-react";
 import { createClient } from "@/lib/supabase";
+import { LandingNavbar } from "@/components/sections/LandingNavbar";
+import { AlexButton } from "@/components/ui/AlexButton";
 
 export default function SignupPage() {
   const [email, setEmail] = useState("");
@@ -19,7 +21,6 @@ export default function SignupPage() {
     setError(null);
     const supabase = createClient();
     
-    // Simulate auth logic or real auth if keys are present
     const { error } = await supabase.auth.signUp({
       email,
       password,
@@ -35,117 +36,132 @@ export default function SignupPage() {
     if (error) {
       setError(error.message);
     } else {
-      router.push("/dashboard"); // Or verification page
+      router.push("/dashboard/discover");
     }
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-surface font-sans text-foreground overflow-hidden">
-      {/* Background Decorative Element */}
-      <div className="absolute top-0 right-0 w-1/2 h-[50vh] bg-primary/5 rounded-full blur-3xl -z-10 pointer-events-none transform translate-x-1/4 -translate-y-1/4" />
-      <div className="absolute bottom-0 left-0 w-1/3 h-[40vh] bg-primary-container/10 rounded-full blur-3xl -z-10 pointer-events-none transform -translate-x-1/4 translate-y-1/4" />
+    <div className="min-h-screen flex flex-col bg-[#F8FAF9] font-outfit text-[#1A2F28] overflow-hidden antialiased relative">
+      <LandingNavbar hideLinks />
 
-      {/* Header / Nav */}
-      <header className="p-6 md:px-12 flex justify-between items-center">
-        <Link href="/" className="group inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
-          <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-          Back to Sanctuary
-        </Link>
-        <div className="flex items-center gap-2">
-          <div className="w-6 h-6 rounded bg-primary flex items-center justify-center">
-            <span className="text-primary-foreground font-heading font-bold text-xs">B</span>
-          </div>
-          <span className="font-heading font-semibold text-sm text-primary">Blissful Station</span>
-        </div>
-      </header>
+      {/* Decorative Blurs */}
+      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#E3F2ED] rounded-full blur-[120px] -z-10 pointer-events-none transform translate-x-1/3 -translate-y-1/3 opacity-60" />
+      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-[#EEF5F2] rounded-full blur-[100px] -z-10 pointer-events-none transform -translate-x-1/4 translate-y-1/4 opacity-80" />
 
-      <main className="flex-1 flex items-center justify-center p-6 pb-24">
-        <div className="w-full max-w-lg">
+      <main className="flex-1 flex items-center justify-center p-4 md:p-8 relative z-10 pt-32 pb-20">
+        <div className="w-full max-w-2xl">
           <div className="text-center mb-10">
-            <h1 className="text-4xl font-heading font-normal tracking-tight text-foreground mb-3">Begin Your Journey</h1>
-            <p className="text-muted-foreground">Join our curated workspace for mental wellness.</p>
+            <h1 className="text-5xl md:text-6xl font-cormorant font-medium text-[#1A2F28] mb-4 tracking-tight">
+              Begin Your <span className="italic font-normal">Journey</span>
+            </h1>
+            <p className="text-[#1A2F28]/60 text-sm font-medium uppercase tracking-[0.2em]">Join our curated workspace for wellness</p>
           </div>
 
-          <div className="bg-surface-container-lowest p-4 md:p-8 md:p-10 rounded-2xl shadow-sm border border-outline-variant/30 relative">
-            <form onSubmit={handleSignup} className="space-y-6">
-              <div className="grid grid-cols-2 gap-4">
-                 <div className="space-y-2">
-                   <label htmlFor="firstName" className="block text-sm font-medium text-foreground/80 ml-1">
-                     First Name
-                   </label>
-                   <input 
-                     id="firstName" 
-                     value={firstName}
-                     onChange={(e) => setFirstName(e.target.value)}
-                     placeholder="Jane" 
-                     className="w-full h-12 bg-surface-container-low border-b border-outline-variant/50 focus:border-primary px-4 outline-none transition-all rounded-lg text-foreground placeholder:text-muted-foreground/50"
-                     required
-                   />
-                 </div>
-                 <div className="space-y-2">
-                   <label htmlFor="lastName" className="block text-sm font-medium text-foreground/80 ml-1">
-                     Last Name
-                   </label>
-                   <input 
-                     id="lastName" 
-                     value={lastName}
-                     onChange={(e) => setLastName(e.target.value)}
-                     placeholder="Doe" 
-                     className="w-full h-12 bg-surface-container-low border-b border-outline-variant/50 focus:border-primary px-4 outline-none transition-all rounded-lg text-foreground placeholder:text-muted-foreground/50"
-                     required
-                   />
-                 </div>
+          <div className="bg-white/60 backdrop-blur-xl p-8 md:p-14 rounded-[2.5rem] shadow-[0_20px_50px_rgba(26,47,40,0.05)] border border-white/40 relative overflow-hidden group">
+            {/* Inner Glow */}
+            <div className="absolute top-0 right-0 w-64 h-64 bg-[#E3F2ED]/50 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:scale-110 transition-transform duration-1000" />
+            
+            <form onSubmit={handleSignup} className="space-y-6 relative z-10">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <label htmlFor="firstName" className="block text-[10px] font-bold uppercase tracking-[0.2em] text-[#1A2F28]/40 ml-4">
+                    First Name
+                  </label>
+                  <div className="relative group/input">
+                    <div className="absolute left-6 top-1/2 -translate-y-1/2 text-[#1A2F28]/30 group-focus-within/input:text-[#2D4F43] transition-colors">
+                      <User size={18} />
+                    </div>
+                    <input 
+                      id="firstName" 
+                      value={firstName}
+                      onChange={(e) => setFirstName(e.target.value)}
+                      placeholder="Jane" 
+                      className="w-full h-16 bg-white/50 border border-[#1A2F28]/5 focus:border-[#2D4F43]/20 focus:bg-white px-14 outline-none transition-all rounded-2xl text-[#1A2F28] font-medium placeholder:text-[#1A2F28]/20 shadow-sm"
+                      required
+                    />
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <label htmlFor="lastName" className="block text-[10px] font-bold uppercase tracking-[0.2em] text-[#1A2F28]/40 ml-4">
+                    Last Name
+                  </label>
+                  <div className="relative group/input">
+                    <div className="absolute left-6 top-1/2 -translate-y-1/2 text-[#1A2F28]/30 group-focus-within/input:text-[#2D4F43] transition-colors">
+                      <User size={18} />
+                    </div>
+                    <input 
+                      id="lastName" 
+                      value={lastName}
+                      onChange={(e) => setLastName(e.target.value)}
+                      placeholder="Doe" 
+                      className="w-full h-16 bg-white/50 border border-[#1A2F28]/5 focus:border-[#2D4F43]/20 focus:bg-white px-14 outline-none transition-all rounded-2xl text-[#1A2F28] font-medium placeholder:text-[#1A2F28]/20 shadow-sm"
+                      required
+                    />
+                  </div>
+                </div>
               </div>
 
               <div className="space-y-2">
-                <label htmlFor="email" className="block text-sm font-medium text-foreground/80 ml-1">
+                <label htmlFor="email" className="block text-[10px] font-bold uppercase tracking-[0.2em] text-[#1A2F28]/40 ml-4">
                   Email Address
                 </label>
-                <input 
-                  id="email" 
-                  type="email" 
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="jane.doe@example.com" 
-                  className="w-full h-12 bg-surface-container-low border-b border-outline-variant/50 focus:border-primary px-4 outline-none transition-all rounded-lg text-foreground placeholder:text-muted-foreground/50"
-                  required
-                />
+                <div className="relative group/input">
+                  <div className="absolute left-6 top-1/2 -translate-y-1/2 text-[#1A2F28]/30 group-focus-within/input:text-[#2D4F43] transition-colors">
+                    <Mail size={18} />
+                  </div>
+                  <input 
+                    id="email" 
+                    type="email" 
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="jane.doe@example.com" 
+                    className="w-full h-16 bg-white/50 border border-[#1A2F28]/5 focus:border-[#2D4F43]/20 focus:bg-white px-14 outline-none transition-all rounded-2xl text-[#1A2F28] font-medium placeholder:text-[#1A2F28]/20 shadow-sm"
+                    required
+                  />
+                </div>
               </div>
               
               <div className="space-y-2">
-                <label htmlFor="password" className="block text-sm font-medium text-foreground/80 ml-1">
-                  Create Password
+                <label htmlFor="password" className="block text-[10px] font-bold uppercase tracking-[0.2em] text-[#1A2F28]/40 ml-4">
+                  Security Code
                 </label>
-                <input 
-                  id="password" 
-                  type="password" 
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••" 
-                  className="w-full h-12 bg-surface-container-low border-b border-outline-variant/50 focus:border-primary px-4 outline-none transition-all rounded-lg text-foreground placeholder:text-muted-foreground/50"
-                  required
-                />
+                <div className="relative group/input">
+                  <div className="absolute left-6 top-1/2 -translate-y-1/2 text-[#1A2F28]/30 group-focus-within/input:text-[#2D4F43] transition-colors">
+                    <Lock size={18} />
+                  </div>
+                  <input 
+                    id="password" 
+                    type="password" 
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="••••••••" 
+                    className="w-full h-16 bg-white/50 border border-[#1A2F28]/5 focus:border-[#2D4F43]/20 focus:bg-white px-14 outline-none transition-all rounded-2xl text-[#1A2F28] font-medium placeholder:text-[#1A2F28]/20 shadow-sm"
+                    required
+                  />
+                </div>
               </div>
 
               {error && (
-                <div className="p-3 bg-destructive/10 border border-destructive/20 rounded-lg text-destructive text-xs text-center font-medium">
+                <div className="p-4 bg-red-50/50 border border-red-100 rounded-2xl text-red-600 text-[10px] font-bold uppercase tracking-widest text-center animate-shake">
                   {error}
                 </div>
               )}
 
-              <button 
-                type="submit" 
-                className="w-full h-12 mt-4 bg-primary text-primary-foreground font-semibold rounded-xl shadow-md hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center group transition-all duration-300"
-              >
-                Create Account
-                <ChevronRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-              </button>
+              <div className="pt-2 flex justify-center">
+                <AlexButton 
+                  type="submit" 
+                  size="lg"
+                  className="px-12 text-sm uppercase tracking-[0.2em]"
+                >
+                  Create Account
+                </AlexButton>
+              </div>
             </form>
 
-            <div className="mt-8 pt-6 border-t border-surface-container-low text-center">
-              <p className="text-sm text-muted-foreground font-sans">
+            <div className="mt-10 pt-8 border-t border-[#1A2F28]/5 text-center">
+              <p className="text-xs text-[#1A2F28]/40 font-medium">
                 Already registered?{" "}
-                <Link href="/login" className="text-primary font-semibold hover:underline">
+                <Link href="/login" className="text-[#2D4F43] font-bold hover:underline decoration-[#2D4F43]/20 decoration-2 underline-offset-4">
                   Sign in securely
                 </Link>
               </p>

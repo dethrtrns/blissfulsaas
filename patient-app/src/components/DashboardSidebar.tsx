@@ -17,11 +17,9 @@ import { createClient } from "@/lib/supabase";
 const supabaseClient = createClient();
 
 const NAV_ITEMS = [
-  { label: "Overview", icon: LayoutDashboard, href: "/dashboard" },
   { label: "Discover Specialists", icon: Compass, href: "/dashboard/discover" },
   { label: "My Sessions", icon: Calendar, href: "/dashboard/sessions" },
   { label: "Messages", icon: MessageSquare, href: "/dashboard/messages" },
-  { label: "Book Session", icon: Plus, href: "/dashboard/sessions/book" },
   { label: "My Intake Form", icon: ClipboardList, href: "/dashboard/intake" },
 ];
 

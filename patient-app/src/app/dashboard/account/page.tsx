@@ -17,7 +17,7 @@ export default function AccountPage() {
     <div className="space-y-6 pb-24">
       <div className="flex flex-col gap-1">
         <h1 className="text-2xl font-heading font-bold text-foreground">Account</h1>
-        <p className="text-sm text-muted-foreground">Manage your sanctuary settings and profile</p>
+        <p className="text-sm text-muted-foreground">Manage your account settings and profile</p>
       </div>
 
       {/* Profile Section Preview */}
@@ -32,7 +32,7 @@ export default function AccountPage() {
       </div>
 
       <div className="space-y-2">
-        <p className="px-4 text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground/60 mb-2">Sanctuary Settings</p>
+        <p className="px-4 text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground/60 mb-2">Account Settings</p>
         <div className="bg-white border border-slate-100 rounded-xl overflow-hidden divide-y divide-slate-50">
           <Link 
             href="/dashboard/profile" 
@@ -75,7 +75,7 @@ export default function AccountPage() {
                 <Home className="w-5 h-5" />
               </div>
               <div>
-                <p className="text-sm font-bold text-slate-900">Return to Sanctuary</p>
+                <p className="text-sm font-bold text-slate-900">Return to Station</p>
                 <p className="text-[10px] text-slate-400 font-medium">Go back to landing page</p>
               </div>
             </div>

@@ -24,7 +24,7 @@ const features = [
     number: "04",
     title: "Curated Specialist Community",
     description:
-      "Join a peer-reviewed community of ethical clinical experts. Collaborate and grow within a sanctuary of clinical excellence.",
+      "Join a peer-reviewed community of ethical clinical experts. Collaborate and grow within a professional network of clinical excellence.",
   },
 ];
 

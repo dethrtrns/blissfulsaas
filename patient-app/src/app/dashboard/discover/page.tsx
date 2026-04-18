@@ -28,7 +28,7 @@ export default function DiscoverPage() {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
         <Loader2 className="w-12 h-12 text-primary animate-spin" />
-        <p className="text-muted-foreground font-medium uppercase tracking-widest text-xs">Curating your sanctuary...</p>
+        <p className="text-muted-foreground font-medium uppercase tracking-widest text-xs">Curating your station...</p>
       </div>
     );
   }
@@ -38,7 +38,7 @@ export default function DiscoverPage() {
       {/* Editorial Header */}
       <div className="relative pt-8 pb-4">
         <h1 className="text-5xl font-heading font-normal text-foreground mb-4 tracking-tight">
-          Find Your <span className="text-primary italic">Sanctuary.</span>
+          Find Your <span className="text-primary italic">Specialist.</span>
         </h1>
         <p className="text-muted-foreground text-lg max-w-xl leading-relaxed">
           Select from our curated network of world-class specialists, each handpicked for their empathy and architectural approach to healing.
@@ -146,7 +146,7 @@ export default function DiscoverPage() {
         ))}
         {therapists.length === 0 && (
           <div className="col-span-1 md:col-span-3 py-20 text-center bg-surface-container-low/20 rounded-2xl border-2 border-dashed border-outline-variant/30">
-            <p className="text-muted-foreground italic">No practitioners have joined this sanctuary yet. Check back soon.</p>
+            <p className="text-muted-foreground italic">No practitioners have joined this station yet. Check back soon.</p>
           </div>
         )}
       </div>

@@ -17,7 +17,7 @@ export default function AccountPage() {
     <div className="space-y-6 pb-24">
       <div className="flex flex-col gap-1">
         <h1 className="text-2xl font-heading font-bold text-foreground">Account</h1>
-        <p className="text-sm text-muted-foreground">Provider settings and sanctuary presence</p>
+        <p className="text-sm text-muted-foreground">Provider settings and professional presence</p>
       </div>
 
       {/* Provider Section Preview */}
@@ -75,7 +75,7 @@ export default function AccountPage() {
                 <Home className="w-5 h-5" />
               </div>
               <div>
-                <p className="text-sm font-bold text-slate-900">Sanctuary Home</p>
+                <p className="text-sm font-bold text-slate-900">Station Home</p>
                 <p className="text-[10px] text-slate-400 font-medium">Go back to the public site</p>
               </div>
             </div>

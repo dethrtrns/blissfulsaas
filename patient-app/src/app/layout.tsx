@@ -14,7 +14,7 @@ const cormorant = Cormorant_Garamond({
 });
 
 export const metadata: Metadata = {
-  title: "Blissful Station | The Serene Sanctuary",
+  title: "Blissful Station | Your Clinical Space",
   description: "A high-end, editorial experience for mental well-being.",
 };
 

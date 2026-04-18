@@ -90,7 +90,7 @@ export default async function DashboardLayout({
           <div className="hidden md:block">
             <h2 className="text-xl lg:text-2xl font-heading font-normal text-foreground">Provider Dashboard</h2>
           </div>
-          <div className="flex items-center gap-6">
+          <div className="hidden sm:flex items-center gap-6">
             <div className="text-right hidden sm:block">
               <p className="text-sm font-bold text-foreground leading-none">{user.user_metadata?.first_name || "Doctor"}</p>
               <p className="text-xs text-muted-foreground mt-2 uppercase tracking-widest font-bold">LCSW • Active Practitioner</p>

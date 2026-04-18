@@ -24,7 +24,7 @@ export function HeroSection() {
 
           <p className="text-lg md:text-xl text-[var(--text-light)] mb-4 md:mb-10 max-w-[540px] leading-relaxed">
             <span className="hidden md:inline">
-              Join a curated sanctuary of expert clinical providers.{" "}
+              Join a curated network of expert clinical providers.{" "}
             </span>
             Our platform handles the clinical overhead—from automated billing to secure video consultations—so you can focus on profound patient recovery.
           </p>

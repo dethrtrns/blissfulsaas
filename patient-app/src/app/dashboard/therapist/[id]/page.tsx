@@ -77,7 +77,7 @@ export default async function TherapistProfilePage({ params }: { params: { id: s
              <h2 className="text-4xl font-heading text-primary font-medium tracking-tight mt-6 mb-6">{specialist.rate}</h2>
              <div className="flex gap-2 w-full">
                 <Link href={`/dashboard/sessions/book/${specialist.id}`} className="flex-1 bg-primary text-primary-foreground py-5 rounded-2xl font-bold uppercase tracking-[0.1em] text-xs shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all text-center">
-                  Book Instant Sanctuary
+                  Book Instant Session
                 </Link>
              </div>
           </div>

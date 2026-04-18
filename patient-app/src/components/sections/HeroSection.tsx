@@ -43,7 +43,7 @@ export function HeroSection() {
         <div className="relative mt-4 lg:mt-0 animate-in fade-in slide-in-from-right duration-1000">
           <img
             src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80&w=1200&h=800"
-            alt="The Blissful Station - Expert Sanctuary"
+            alt="The Blissful Station - Expert Station"
             className="w-full rounded-[30px] shadow-[0_20px_50px_rgba(0,0,0,0.1)] animate-float"
           />
           <div className="hidden md:flex absolute bottom-0 -left-10 bg-[rgba(255,255,255,0.9)] backdrop-blur-[15px] p-6 rounded-[24px] border border-[rgba(33,77,62,0.1)] shadow-[0_15px_45px_rgba(33,77,62,0.1)] items-center gap-5 z-10 transition-transform hover:scale-105 duration-300">

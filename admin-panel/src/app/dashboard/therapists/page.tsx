@@ -108,7 +108,7 @@ export default async function TherapistsPage() {
               {(!therapists || therapists.length === 0) && (
                 <tr>
                   <td colSpan={5} className="px-5 md:px-10 py-20 text-center">
-                     <p className="text-muted-foreground italic text-sm">No practitioners registered in the database sanctuary yet.</p>
+                     <p className="text-muted-foreground italic text-sm">No practitioners registered in the database yet.</p>
                   </td>
                 </tr>
               )}

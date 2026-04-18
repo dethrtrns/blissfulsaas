@@ -74,7 +74,7 @@ export function ServicesSection() {
             Practice Management Suite
           </h2>
           <p className="text-[var(--text-light)]">
-            Every tool you need to run a modern, ethical, and thriving clinical practice—all within a single digital sanctuary.
+            Every tool you need to run a modern, ethical, and thriving clinical practice—all within a single clinical station.
           </p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -107,7 +107,7 @@ export function ServicesSection() {
           <AlexButton
             href="/signup"
             size="md">
-            Join the Sanctuary
+            Join the Station
           </AlexButton>
         </div>
       </div>

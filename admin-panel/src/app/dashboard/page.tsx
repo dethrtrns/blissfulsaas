@@ -19,7 +19,7 @@ export default async function DashboardPage() {
   const { count: pendingTherapists } = await supabase.from("Therapist").select("*", { count: "exact", head: true }).eq("isVerified", false);
 
   const stats = [
-    { label: "Total Sanctuary Users", value: totalUsers || 0, icon: Users, color: "text-primary", bg: "bg-primary/5" },
+    { label: "Total Platform Users", value: totalUsers || 0, icon: Users, color: "text-primary", bg: "bg-primary/5" },
     { label: "Registered Patients", value: totalPatients || 0, icon: UserCheck, color: "text-emerald-600", bg: "bg-emerald-500/5" },
     { label: "Mental Health Specialists", value: totalTherapists || 0, icon: Activity, color: "text-blue-600", bg: "bg-blue-500/5" },
     { label: "Pending Verifications", value: pendingTherapists || 0, icon: ShieldAlert, color: "text-destructive", bg: "bg-destructive/5" },

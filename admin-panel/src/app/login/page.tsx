@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { ShieldAlert, Fingerprint, Loader2 } from "lucide-react";
+import { ShieldAlert, Loader2, Mail, Lock, Terminal } from "lucide-react";
 import { createClient } from "@/lib/supabase";
 import { AlexButton } from "@/components/ui/AlexButton";
 
@@ -32,103 +32,119 @@ export default function AdminLoginPage() {
       return;
     }
 
-    // Role check happens in dashboard layout, but we'll do a quick check here too
     router.push("/dashboard");
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-surface font-sans text-foreground overflow-hidden antialiased">
-      {/* Background Decorative Blurs */}
-      <div className="absolute top-0 right-0 w-1/2 h-[50vh] bg-primary/5 rounded-full blur-[120px] -z-10 pointer-events-none transform translate-x-1/4 -translate-y-1/4" />
-      <div className="absolute bottom-0 left-0 w-1/3 h-[40vh] bg-destructive/5 rounded-full blur-[120px] -z-10 pointer-events-none transform -translate-x-1/4 translate-y-1/4" />
+    <div className="min-h-screen flex flex-col bg-[#0F1A16] font-outfit text-white overflow-hidden antialiased relative">
+      {/* Decorative Blurs */}
+      <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-[#1A2F28] rounded-full blur-[150px] -z-10 pointer-events-none transform translate-x-1/3 -translate-y-1/3 opacity-40" />
+      <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-[#2D4F43] rounded-full blur-[120px] -z-10 pointer-events-none transform -translate-x-1/4 translate-y-1/4 opacity-20" />
 
       {/* Header */}
-      <header className="p-4 md:p-8 md:px-16 flex justify-between items-center z-10 transition-all duration-500">
+      <header className="p-6 md:p-10 md:px-16 flex justify-between items-center z-10">
         <div className="flex items-center gap-4 group cursor-default">
-          <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center shadow-lg shadow-primary/20 rotate-0 group-hover:rotate-12 transition-transform">
-            <span className="text-primary-foreground font-heading font-bold text-xs">B</span>
+          <div className="w-10 h-10 rounded-xl bg-[#2D4F43] flex items-center justify-center shadow-lg shadow-[#2D4F43]/20 rotate-0 group-hover:rotate-12 transition-transform">
+            <span className="text-white font-heading font-bold text-sm">B</span>
           </div>
-          <span className="font-heading font-bold text-lg text-primary tracking-tight">System Admin</span>
+          <div className="flex flex-col">
+            <span className="font-cormorant font-bold text-xl text-white tracking-tight leading-none">Blissful Station</span>
+            <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#2D4F43]">System Admin</span>
+          </div>
         </div>
-        <div className="hidden sm:flex items-center gap-2 px-4 py-2 bg-destructive/5 border border-destructive/10 rounded-full">
-           <ShieldAlert className="w-3.5 h-3.5 text-destructive animate-pulse" />
-           <span className="text-xs font-bold uppercase tracking-widest text-destructive/80">Restricted Access</span>
+        <div className="hidden sm:flex items-center gap-3 px-5 py-2.5 bg-red-500/5 border border-red-500/10 rounded-full backdrop-blur-md">
+           <ShieldAlert className="w-3.5 h-3.5 text-red-400 animate-pulse" />
+           <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-red-400/80">Restricted Terminal</span>
         </div>
       </header>
 
       <main className="flex-1 flex items-center justify-center p-4 md:p-8 pb-32 z-10">
-        <div className="w-full max-w-md animate-in fade-in slide-in-from-bottom-8 duration-700">
-          <div className="text-center mb-12">
-            <div className="w-20 h-20 rounded-[2rem] bg-surface-container-low flex items-center justify-center mx-auto mb-8 text-primary shadow-inner border border-outline-variant/10 relative overflow-hidden group">
-               <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-1 transition-opacity duration-500" />
-               <Fingerprint className="w-10 h-10 font-thin transition-transform duration-500 group-hover:scale-110" />
+        <div className="w-full max-w-xl animate-in fade-in slide-in-from-bottom-8 duration-1000">
+          <div className="text-center mb-10">
+            <div className="w-20 h-20 rounded-[2rem] bg-white/5 border border-white/10 flex items-center justify-center mx-auto mb-8 text-white shadow-2xl relative overflow-hidden group">
+               <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+               <Terminal className="w-10 h-10 font-thin transition-transform duration-500 group-hover:scale-110 text-[#2D4F43]" />
             </div>
-             <h1 className="text-4xl font-heading font-normal tracking-tight text-primary mb-4 leading-tight">
-               Admin <span className="simmer-text italic">OS.</span>
-             </h1>
-             <p className="text-primary/40 text-xs font-bold uppercase tracking-[0.4em] ml-1">Terminal Auth Required</p>
+            <h1 className="text-5xl md:text-6xl font-cormorant font-medium text-white mb-4 tracking-tight">
+              Admin <span className="italic font-normal text-[#2D4F43]">OS</span>
+            </h1>
+            <p className="text-white/40 text-[10px] font-bold uppercase tracking-[0.4em]">Biometric or Terminal Auth Required</p>
           </div>
 
-          <div className="bg-surface-container-lowest p-5 md:p-10 md:p-12 rounded-[3.5rem] shadow-2xl border border-outline-variant/10 relative overflow-hidden group">
-            <div className="absolute top-0 right-0 w-48 h-48 bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:scale-125 transition-transform duration-1000" />
+          <div className="bg-white/5 backdrop-blur-2xl p-8 md:p-14 rounded-[3rem] shadow-[0_30px_100px_rgba(0,0,0,0.5)] border border-white/10 relative overflow-hidden group">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-[#2D4F43]/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:scale-125 transition-transform duration-1000" />
             
             <form onSubmit={handleLogin} className="space-y-8 relative z-10">
               <div className="space-y-3">
-                <label className="block text-xs font-bold uppercase tracking-[0.3em] text-primary/30 ml-2">
-                  Email Address
+                <label className="block text-[10px] font-bold uppercase tracking-[0.3em] text-white/30 ml-4">
+                  Root Credentials
                 </label>
-                <input 
-                  type="email" 
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="admin@station.os" 
-                  className="w-full h-16 bg-surface-container-low border border-transparent focus:border-primary/10 focus:bg-surface-container-lowest px-4 md:px-8 outline-none transition-all rounded-xl text-primary font-medium placeholder:text-primary/10 shadow-sm"
-                  required
-                />
+                <div className="relative group/input">
+                  <div className="absolute left-6 top-1/2 -translate-y-1/2 text-white/20 group-focus-within/input:text-[#2D4F43] transition-colors">
+                    <Mail size={20} />
+                  </div>
+                  <input 
+                    type="email" 
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="admin@station.os" 
+                    className="w-full h-16 bg-white/5 border border-white/10 focus:border-[#2D4F43]/30 focus:bg-white/10 px-14 outline-none transition-all rounded-2xl text-white font-medium placeholder:text-white/10 shadow-inner"
+                    required
+                  />
+                </div>
               </div>
               
               <div className="space-y-3">
-                <label className="block text-xs font-bold uppercase tracking-[0.3em] text-primary/30 ml-2">
-                  Password
+                <label className="block text-[10px] font-bold uppercase tracking-[0.3em] text-white/30 ml-4">
+                  Security Token
                 </label>
-                <input 
-                  type="password" 
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••" 
-                  className="w-full h-16 bg-surface-container-low border border-transparent focus:border-primary/10 focus:bg-surface-container-lowest px-4 md:px-8 outline-none transition-all rounded-xl text-primary font-medium placeholder:text-primary/10 shadow-sm"
-                  required
-                />
+                <div className="relative group/input">
+                  <div className="absolute left-6 top-1/2 -translate-y-1/2 text-white/20 group-focus-within/input:text-[#2D4F43] transition-colors">
+                    <Lock size={20} />
+                  </div>
+                  <input 
+                    type="password" 
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="••••••••" 
+                    className="w-full h-16 bg-white/5 border border-white/10 focus:border-[#2D4F43]/30 focus:bg-white/10 px-14 outline-none transition-all rounded-2xl text-white font-medium placeholder:text-white/10 shadow-inner"
+                    required
+                  />
+                </div>
               </div>
 
               {error && (
-                <div className="p-5 bg-destructive/5 border border-destructive/10 rounded-xl text-destructive text-xs font-bold uppercase tracking-[0.1em] text-center leading-relaxed">
+                <div className="p-5 bg-red-500/10 border border-red-500/20 rounded-2xl text-red-400 text-[10px] font-bold uppercase tracking-[0.2em] text-center leading-relaxed animate-shake">
                   {error}
                 </div>
               )}
 
-              <AlexButton 
-                type="submit" 
-                disabled={loading}
-                className="w-full h-20 shadow-2xl shadow-primary/20"
-              >
-                {loading ? (
-                  <Loader2 className="w-6 h-6 animate-spin" />
-                ) : (
-                  "Initiate Access"
-                )}
-              </AlexButton>
+              <div className="pt-2 flex justify-center">
+                <AlexButton 
+                  type="submit" 
+                  disabled={loading}
+                  size="lg"
+                  className="px-12 text-sm uppercase tracking-[0.3em]"
+                  icon={loading ? <Loader2 className="w-6 h-6 animate-spin" /> : <Terminal size={18} />}
+                >
+                  {loading ? "Processing..." : "Initiate Access"}
+                </AlexButton>
+              </div>
             </form>
 
-            <div className="mt-14 pt-10 border-t border-primary/5 text-center">
-              <p className="text-xs text-primary/30 font-bold uppercase tracking-[0.2em] leading-relaxed">
+            <div className="mt-14 pt-10 border-t border-white/5 text-center">
+              <p className="text-[10px] text-white/20 font-bold uppercase tracking-[0.2em] leading-relaxed">
                 Access to this terminal is restricted to authorized personnel. 
-                <br />Unauthorized access will be logged.
+                <br />Unauthorized access attempts are logged and reported.
               </p>
             </div>
           </div>
         </div>
       </main>
+
+      <footer className="p-10 text-center opacity-20">
+        <p className="text-[10px] font-bold uppercase tracking-[0.5em]">Blissful Station Secure Environment v4.0.2</p>
+      </footer>
     </div>
   );
 }

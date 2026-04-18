@@ -53,7 +53,7 @@ export default async function DashboardLayout({
             className="flex items-center px-4 py-3 text-foreground/60 hover:text-primary rounded-xl transition-colors text-sm font-medium group"
           >
             <Home className="w-5 h-5 mr-3" />
-            Return to Sanctuary
+            Return to Station
           </Link>
           <SignOutButton />
         </div>
@@ -72,7 +72,7 @@ export default async function DashboardLayout({
           <div className="hidden md:block">
             <h2 className="text-xl md:text-2xl font-heading font-normal text-foreground">Patient Portal</h2>
           </div>
-          <div className="flex items-center gap-4">
+          <div className="hidden sm:flex items-center gap-4">
             <div className="text-right hidden sm:block">
               <p className="text-sm font-semibold text-foreground leading-none">{user.user_metadata?.first_name || "User"}</p>
               <p className="text-xs text-muted-foreground mt-1 uppercase tracking-tighter">Premium Patient</p>

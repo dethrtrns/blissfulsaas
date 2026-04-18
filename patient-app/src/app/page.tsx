@@ -28,7 +28,7 @@ export default function Home() {
               <span>Blissful Station</span>
             </div>
             <p className="text-[var(--text-light)] max-w-md">
-               The premier digital sanctuary for expert, ethical clinical therapy and counseling.
+               The premier digital station for expert, ethical clinical therapy and counseling.
             </p>
             <div className="flex gap-8 text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--primary)]/40">
               <Link href="/privacy" className="hover:text-[var(--primary)] transition-colors">Privacy</Link>

@@ -6,7 +6,13 @@ import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { AlexButton } from "@/components/ui/AlexButton";
 
-export function LandingNavbar({ portal = "patient" }: { portal?: "patient" | "therapist" }) {
+export function LandingNavbar({ 
+  portal = "patient", 
+  hideLinks = false 
+}: { 
+  portal?: "patient" | "therapist",
+  hideLinks?: boolean
+}) {
   const [scrolled, setScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
@@ -49,26 +55,28 @@ export function LandingNavbar({ portal = "patient" }: { portal?: "patient" | "th
           <span className="hidden md:block">Blissful Station</span>
         </Link>
 
-        <div className="flex items-center gap-2 md:gap-4">
-          <Link href="/login" className="hidden md:block text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--primary)]/60 hover:text-[var(--primary)] transition-colors">
-            {portal === "therapist" ? "Portal Login" : "Login"}
-          </Link>
-          <AlexButton
-            href="/signup"
-            size="sm"
-            className="text-[14px] md:text-base">
-            {portal === "therapist" ? "Join Network" : "Get Started"}
-          </AlexButton>
+        {!hideLinks && (
+          <div className="flex items-center gap-2 md:gap-4">
+            <Link href="/login" className="hidden md:block text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--primary)]/60 hover:text-[var(--primary)] transition-colors">
+              {portal === "therapist" ? "Portal Login" : "Login"}
+            </Link>
+            <AlexButton
+              href="/signup"
+              size="sm"
+              className="text-[14px] md:text-base">
+              {portal === "therapist" ? "Join Network" : "Get Started"}
+            </AlexButton>
 
-          {/* Mobile Toggle */}
-          <button
-            onClick={() => setIsMenuOpen(true)}
-            className="lg:hidden p-1.5 text-[var(--primary)] focus:outline-none"
-            aria-label="Open Menu"
-          >
-            <Menu size={24} />
-          </button>
-        </div>
+            {/* Mobile Toggle */}
+            <button
+              onClick={() => setIsMenuOpen(true)}
+              className="lg:hidden p-1.5 text-[var(--primary)] focus:outline-none"
+              aria-label="Open Menu"
+            >
+              <Menu size={24} />
+            </button>
+          </div>
+        )}
       </nav>
 
       {/* Mobile Menu Overlay */}
@@ -106,7 +114,7 @@ export function LandingNavbar({ portal = "patient" }: { portal?: "patient" | "th
 
           <div className="pt-8 border-t border-gray-100 flex flex-col items-center text-center">
             <p className="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-4 font-outfit">
-              Clinical Sanctuary
+              Clinical Workspace
             </p>
             <AlexButton
               href="/signup"
