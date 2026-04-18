@@ -109,4 +109,26 @@ export class MessagesService {
     
     return countMap;
   }
+
+  async getMessagesByPatient(therapistUserId: string, patientId: string) {
+    // 1. Find the therapist profile
+    const therapist = await this.prisma.therapist.findUnique({
+      where: { userId: therapistUserId },
+    });
+    if (!therapist) throw new NotFoundException('Therapist profile not found');
+
+    // 2. Fetch all messages for all appointments between this therapist and patient
+    return this.prisma.message.findMany({
+      where: {
+        appointment: {
+          therapistId: therapist.id,
+          patientId: patientId,
+        },
+      },
+      include: {
+        sender: { select: { id: true, email: true, role: true } },
+      },
+      orderBy: { createdAt: 'asc' },
+    });
+  }
 }

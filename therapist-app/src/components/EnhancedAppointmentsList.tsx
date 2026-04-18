@@ -17,9 +17,19 @@ import {
 import Link from "next/link";
 import AppointmentActions from "@/components/AppointmentActions";
 import { api } from "@/lib/api";
+import PatientDetailPanel from "./PatientDetailPanel";
+import { MessageSquare } from "lucide-react";
 
 export default function EnhancedAppointmentsList({ initialAppointments }: { initialAppointments: any[] }) {
+  const [selectedPatient, setSelectedPatient] = useState<any | null>(null);
+  const [isPanelOpen, setIsPanelOpen] = useState(false);
   const [expandedId, setExpandedId] = useState<string | null>(null);
+
+  const openPatientPanel = (e: React.MouseEvent, patient: any) => {
+    e.stopPropagation();
+    setSelectedPatient(patient);
+    setIsPanelOpen(true);
+  };
   const [notesState, setNotesState] = useState<Record<string, { content: string, loading: boolean, saved: boolean }>>(() => {
     const state: any = {};
     initialAppointments.forEach(a => {
@@ -91,14 +101,17 @@ export default function EnhancedAppointmentsList({ initialAppointments }: { init
                       } ${['CANCELLED', 'COMPLETED'].includes(appt.status) && !isExpanded ? 'opacity-50 grayscale-[0.2]' : ''}`}
                     >
                       <td className="px-4 md:px-8 py-6 border-b border-slate-50">
-                        <div className="flex items-center gap-4">
+                        <div 
+                          className="flex items-center gap-4 group/patient"
+                          onClick={(e) => openPatientPanel(e, appt.patient)}
+                        >
                           <div className={`w-12 h-12 rounded-2xl flex items-center justify-center font-bold text-lg transition-all shadow-sm border ${
-                            isExpanded ? 'bg-primary text-white border-primary' : 'bg-white text-primary border-slate-100'
+                            isExpanded ? 'bg-primary text-white border-primary' : 'bg-white text-primary border-slate-100 group-hover/patient:bg-primary/5'
                           }`}>
                             {appt.patient?.firstName?.[0]}
                           </div>
                           <div>
-                            <div className="font-heading font-medium text-slate-900 flex items-center gap-2">
+                            <div className="font-heading font-medium text-slate-900 flex items-center gap-2 group-hover/patient:text-primary transition-colors">
                               {appt.patient?.firstName} {appt.patient?.lastName}
                               {hasNotes && (
                                 <div className="flex items-center gap-1.5 px-2 py-0.5 bg-blue-50 text-blue-600 rounded-md border border-blue-100 animate-in fade-in zoom-in duration-300">
@@ -107,7 +120,15 @@ export default function EnhancedAppointmentsList({ initialAppointments }: { init
                                 </div>
                               )}
                             </div>
-                            <p className="text-xs text-slate-400 font-bold uppercase tracking-widest mt-1">Video Consultation</p>
+                            <div className="flex items-center gap-2">
+                              <p className="text-xs text-slate-400 font-bold uppercase tracking-widest mt-1">Video Consultation</p>
+                              <div className="w-1 h-1 rounded-full bg-slate-300 mt-1" />
+                              <button 
+                                className="text-[10px] font-bold text-primary/60 uppercase tracking-widest mt-1 hover:text-primary transition-colors"
+                              >
+                                Message
+                              </button>
+                            </div>
                           </div>
                         </div>
                       </td>
@@ -432,6 +453,12 @@ export default function EnhancedAppointmentsList({ initialAppointments }: { init
           })
         )}
       </div>
+
+      <PatientDetailPanel 
+        patient={selectedPatient} 
+        isOpen={isPanelOpen} 
+        onClose={() => setIsPanelOpen(false)} 
+      />
     </div>
   );
 }

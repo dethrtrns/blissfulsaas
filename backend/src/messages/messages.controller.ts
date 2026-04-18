@@ -36,4 +36,12 @@ export class MessagesController {
   ) {
     return this.messagesService.markAsRead(req.user.userId, appointmentId);
   }
+
+  @Get('patient/:patientId')
+  getForPatient(
+    @Request() req: any,
+    @Param('patientId', ParseUUIDPipe) patientId: string,
+  ) {
+    return this.messagesService.getMessagesByPatient(req.user.userId, patientId);
+  }
 }
